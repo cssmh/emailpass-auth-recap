@@ -1,7 +1,7 @@
 const Home = () => {
   return (
     <div>
-      <div className="hero min-h-[90vh] bg-base-200">
+      <div className="hero min-h-[80vh] bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <img
             src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
