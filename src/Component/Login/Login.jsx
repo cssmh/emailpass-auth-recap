@@ -1,6 +1,6 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../../Firebase/firebase.config";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const Login = () => {
 
@@ -36,6 +36,19 @@ const Login = () => {
   console.log(success);
   console.log(error);
 
+  const getEmail = useRef(null)
+  const handleForgotPassword = () => {
+  const email = getEmail.current.value;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    alert("give me valid email")
+    return;
+  }else{
+    sendPasswordResetEmail(auth, email)
+    .then(console.log("password reset mail sent"))
+    .catch(err => console.log(err.message))
+  }
+}
+
   return (
       <div className="hero min-h-[80vh] bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
@@ -54,6 +67,7 @@ const Login = () => {
                   name="email"
                   placeholder="Email"
                   className="input input-bordered"
+                  ref={getEmail}
                   required
                 />
               </div>
@@ -70,6 +84,7 @@ const Login = () => {
                 />
                 <label className="label">
                   <a
+                  onClick={handleForgotPassword}
                     href="#"
                     className="label-text-alt link link-hover text-sm"
                   >
