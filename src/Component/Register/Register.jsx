@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import auth from "../../Firebase/firebase.config";
 import { useState } from "react";
 const Register = () => {
@@ -28,7 +28,7 @@ const Register = () => {
       setShowError("Please insert at least 6 length password or more!");
       return;
     } else if (!terms) {
-      setShowError("Accept terms and condition first!");
+      setShowError("Accept terms and condition!");
       return;
     }
 
@@ -36,6 +36,17 @@ const Register = () => {
       .then((res) => {
         setShowSuccess("User Sign Up successful")
         console.log(res.user);
+
+        updateProfile(res.user, {
+          displayName: name
+        })
+        .then(console.log("success update profile"))
+        .catch(err => console.log(err.message))
+
+        sendEmailVerification(res.user)
+        .then(console.log("Verification email sent"))
+        .catch(err => console.log(err.message))
+
       })
       .catch((err) => {
         setShowError(err.message)
@@ -50,7 +61,7 @@ const Register = () => {
           <form onSubmit={handleSignUpButton}>
             <div className="text-center py-9">
               <input
-                className="w-full py-3 px-2 rounded-md"
+                className="w-full py-3 px-2 rounded-md outline-none"
                 placeholder="Your Name"
                 type="text"
                 name="name"
@@ -60,7 +71,7 @@ const Register = () => {
               <br></br>
               <br></br>
               <input
-                className="w-full py-3 px-2 rounded-md"
+                className="w-full py-3 px-2 rounded-md outline-none"
                 placeholder="Your Email"
                 type="email"
                 name="email"
@@ -70,7 +81,7 @@ const Register = () => {
               <br></br>
               <br></br>
               <input
-                className="w-full py-3 px-2 rounded-md"
+                className="w-full py-3 px-2 rounded-md outline-none"
                 placeholder="Your Password"
                 type="password"
                 name="password"
