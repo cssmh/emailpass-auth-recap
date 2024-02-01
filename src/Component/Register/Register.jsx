@@ -40,7 +40,7 @@ const Register = () => {
         updateProfile(res.user, {
           displayName: name
         })
-        .then(console.log("success update profile"))
+        .then(console.log("Success update profile"))
         .catch(err => console.log(err.message))
 
         sendEmailVerification(res.user)
